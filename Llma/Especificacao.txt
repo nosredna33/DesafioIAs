@@ -1,0 +1,50 @@
+Especificação do Programa de Geração de Sugestões de Jogos para Mega-Sena
+Visão Geral
+O programa a ser desenvolvido em Java visa gerar sugestões de jogos para a Mega-Sena com base em estatísticas dos sorteios disponíveis no site Mega Power Loterias. O programa deve ser capaz de gerar apostas aleatórias ou baseadas em índices lexicográficos, avaliar essas apostas com base em estratégias definidas e ranquear as melhores apostas.
+Funcionalidades
+Geração de Apostas:
+Gerar apostas aleatórias com base no número informado como parâmetro.
+Gerar apostas com base no índice lexicográfico entre as combinações possíveis (50.063.860 combinações).
+Gerar todas as combinações possíveis para avaliação.
+Estratégias de Avaliação:
+Implementar estratégias baseadas em estatísticas dos sorteios, como:
+Ranking gaussiano das apostas baseado em múltiplos critérios.
+Análise de transição de estados usando a tabela EST_MUD_ESTADO.
+Probabilidades condicionais por posição baseadas no histórico de ocorrências.
+Sistema de scoring mais robusto com pesos estatísticos.
+Outras estratégias que se julgarem interessantes.
+Banco de Dados:
+Utilizar o banco de dados SQLite 3 fornecido pelo site Mega Power Loterias para obter estatísticas dos sorteios.
+Tabelas e views importantes:
+DEZ_OCORRENCIAS: Contém informações granulares da ocorrência de cada dezena.
+AGREG_DIS_DEZ_POSICAO: Mantém uma linha para cada dezena exibindo a quantidade de ocorrências da dezena por posição no sorteio.
+FAT_APOSTAS: Tabela para persistir as sugestões de apostas geradas.
+Requisitos Técnicos:
+Multithreading para processamento paralelo das apostas.
+Pool de conexões com o banco de dados SQLite 3 para evitar gargalos.
+Uso de ExecutorService para gerenciamento de threads.
+Sistema de retry com backoff exponencial para falhas temporárias.
+Failover após 3 tentativas.
+Cache inteligente para armazenamento local de scores calculados com validade de 1 minuto.
+Gerenciamento adequado de recursos (conexões e threads) com awaitTermination para desligamento gracioso.
+Tratamento robusto de exceções.
+Parâmetros POSIX
+O programa deve aceitar parâmetros na forma POSIX para especificar:
+Número de apostas a serem geradas.
+Tipo de geração de apostas (aleatória, índice lexicográfico ou todas as combinações).
+Outras configurações necessárias para o funcionamento do programa.
+Saída
+O programa deve exibir mensagens com data, hora e valores, utilizando o locale do ambiente operacional ou Português Brasil se não for possível detectar automaticamente. As sugestões de apostas geradas devem ser ranqueadas com base na soma da pontuação alcançada em todas as estratégias aplicadas.
+Persistência
+As sugestões de apostas geradas devem ser persistidas no banco de dados na tabela FAT_APOSTAS, juntamente com a data da aposta, a data do sorteio, o concurso, a soma do ranking de estratégias e a comparação do ranking do resultado real do último concurso.
+Análise de Desempenho
+O programa deve analisar o desempenho das sugestões de apostas geradas com base no resultado do último sorteio e persistir essa análise no banco de dados.
+Implementação
+A implementação do programa deve seguir os requisitos técnicos especificados, utilizando as bibliotecas e frameworks necessários para garantir a eficiência e escalabilidade do programa.
+Bibliotecas e Frameworks
+Apache Commons DBCP para pool de conexões.
+ExecutorService para gerenciamento de threads.
+SQLite JDBC driver para conexão com o banco de dados SQLite 3.
+Considerações Finais
+O programa deve ser desenvolvido com foco na eficiência, escalabilidade e robustez, garantindo que as sugestões de apostas geradas sejam baseadas em estatísticas precisas e atualizadas dos sorteios da Mega-Sena. Além disso, o programa deve ser fácil de manter e estender, permitindo a adição de novas estratégias e funcionalidades conforme necessário.
+Resposta da Meta AI: Especificação do Programa de Geração de Sugestões de Jogos para Mega-Sena Visão Geral O programa a ser desenvolvido em Java visa gerar sugestões de jogos para a Mega-Sena com base em estatísticas dos sorteios disponíveis no site Mega Power Loterias. O programa deve ser capaz de gerar apostas aleatórias ou baseadas em índices lexicográficos, avaliar essas apostas com base em estratégias definidas e ranquear as melhores apostas. Funcionalidades Geração de Apostas: Gerar apostas aleatórias com base no número informado como parâmetro. Gerar apostas com base no índice lexicográfico entre as combinações possíveis (50.063.860 combinações). Gerar todas as combinações possíveis para avaliação. Estratégias de Avaliação: Implementar estratégias baseadas em estatísticas dos sorteios, como: Ranking gaussiano das apostas baseado em múltiplos critérios. Análise de transição de estados usando a tabela EST_MUD_ESTADO. Probabilidades condicionais por posição baseadas no histórico de ocorrências. Sistema de scoring mais robusto com pesos estatísticos. Outras estratégias que se julgarem interessantes. Banco de Dados: Utilizar o banco de dados SQLite 3 fornecido pelo site Mega Power Loterias para obter estatísticas dos sorteios. Tabelas e views importantes: DEZ_OCORRENCIAS: Contém informações granulares da ocorrência de cada dezena. AGREG_DIS_DEZ_POSICAO: Mantém uma linha para cada dezena exibindo a quantidade de ocorrências da dezena por posição no sorteio. FAT_APOSTAS: Tabela para persistir as sugestões de apostas geradas. Requisitos Técnicos: Multithreading para processamento paralelo das apostas. Pool de conexões com o banco de dados SQLite 3 para evitar gargalos. Uso de ExecutorService para gerenciamento de threads. Sistema de retry com backoff exponencial para falhas temporárias. Failover após 3 tentativas. Cache inteligente para armazenamento local de scores calculados com validade de 1 minuto. Gerenciamento adequado de recursos (conexões e threads) com awaitTermination para desligamento gracioso. Tratamento robusto de exceções. Parâmetros POSIX O programa deve aceitar parâmetros na forma POSIX para especificar: Número de apostas a serem geradas. Tipo de geração de apostas (aleatória, índice lexicográfico ou todas as combinações). Outras configurações necessárias para o funcionamento do programa. Saída O programa deve exibir mensagens com data, hora e valores, utilizando o locale do ambiente operacional ou Português Brasil se não for possível detectar automaticamente. As sugestões de apostas geradas devem ser ranqueadas com base na soma da pontuação alcançada em todas as estratégias aplicadas. Persistência As sugestões de apostas geradas devem ser persistidas no banco de dados na tabela FAT_APOSTAS, juntamente com a data da aposta, a data do sorteio, o concurso, a soma do ranking de estratégias e a comparação do ranking do resultado real do último concurso. Análise de Desempenho O programa deve analisar o desempenho das sugestões de apostas geradas com base no resultado do último sorteio e persistir essa análise no banco de dados. Implementação A implementação do programa deve seguir os requisitos técnicos especificados, utilizando as bibliotecas e frameworks necessários para garantir a eficiência e escalabilidade do programa. Bibliotecas e Frameworks Apache Commons DBCP para pool de conexões. ExecutorService para gerenciamento de threads. SQLite JDBC driver para conexão com o banco de dados SQLite 3. Considerações Finais O programa deve ser desenvolvido com foco na eficiência, escalabilidade e robustez, garantindo que as sugestões de apostas geradas sejam baseadas em estatísticas precisas e atualizadas dos sorteios da Mega-Sena. Além disso, o programa deve ser fácil de manter e estender, permitindo a adição de novas estratégias e funcionalidades conforme necessário.

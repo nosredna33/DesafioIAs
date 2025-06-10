@@ -1,0 +1,305 @@
+
+      <html xmlns:o='urn:schemas-microsoft-com:office:office'
+            xmlns:w='urn:schemas-microsoft-com:office:word'
+            xmlns='http://www.w3.org/TR/REC-html40'>
+      <head>
+          <meta charset="utf-8">
+          <title>Exported Document</title>
+          <style>
+              body { font-family: Arial, sans-serif; }
+          </style>
+      </head>
+      <body>
+          <h1 id="especificaodosistemadesugestodeapostasparamegasena">Especificação do Sistema de Sugestão de Apostas para Mega-Sena</h1>
+<h2 id="1visogeral">1. Visão Geral</h2>
+<p>O sistema proposto é um aplicativo Java multithread que gera sugestões de apostas para a Mega-Sena baseadas em análises estatísticas dos dados históricos dos sorteios. O sistema utiliza um banco de dados SQLite pré-populado com estatísticas completas dos concursos anteriores.</p>
+<h2 id="2requisitosfuncionais">2. Requisitos Funcionais</h2>
+<h3 id="21geraodeapostas">2.1 Geração de Apostas</h3>
+<ul>
+<li><strong>RF01</strong>: O sistema deve gerar sugestões de apostas baseadas em três métodos distintos:</li>
+<li>Aleatório simples</li>
+<li>Seleção lexicográfica aleatória</li>
+<li>Avaliação completa de todas combinações possíveis</li>
+</ul>
+<h3 id="22processamentoestatstico">2.2 Processamento Estatístico</h3>
+<ul>
+<li><strong>RF02</strong>: O sistema deve implementar uma arquitetura de estratégias de análise baseada em classes abstratas/interfaces</li>
+<li><strong>RF03</strong>: Cada estratégia deve atribuir uma pontuação (score) para cada aposta avaliada</li>
+<li><strong>RF04</strong>: O ranking final deve ser calculado como a soma das pontuações de todas estratégias aplicadas</li>
+</ul>
+<h3 id="23persistnciaeanlise">2.3 Persistência e Análise</h3>
+<ul>
+<li><strong>RF05</strong>: O sistema deve persistir as apostas sugeridas na tabela FAT_APOSTAS</li>
+<li><strong>RF06</strong>: O sistema deve comparar as sugestões com os resultados reais dos sorteios</li>
+</ul>
+<h2 id="3requisitosnofuncionais">3. Requisitos Não-Funcionais</h2>
+<h3 id="31desempenho">3.1 Desempenho</h3>
+<ul>
+<li><strong>RNF01</strong>: Processamento multithread com utilização eficiente de múltiplos núcleos</li>
+<li><strong>RNF02</strong>: Uso de pool de conexões para acesso ao banco SQLite</li>
+<li><strong>RNF03</strong>: Implementação de cache para scores calculados</li>
+</ul>
+<h3 id="32confiabilidade">3.2 Confiabilidade</h3>
+<ul>
+<li><strong>RNF04</strong>: Mecanismo de retry com backoff exponencial para falhas temporárias</li>
+<li><strong>RNF05</strong>: Tratamento robusto de exceções</li>
+<li><strong>RNF06</strong>: Gerenciamento adequado de recursos (conexões, threads)</li>
+</ul>
+<h3 id="33usabilidade">3.3 Usabilidade</h3>
+<ul>
+<li><strong>RNF07</strong>: Mensagens formatadas com data/hora e suporte a NLS</li>
+<li><strong>RNF08</strong>: Interface de linha de comando POSIX-compliant</li>
+</ul>
+<h2 id="4arquiteturadosistema">4. Arquitetura do Sistema</h2>
+<h3 id="41componentesprincipais">4.1 Componentes Principais</h3>
+<ol>
+<li><strong>Main Application</strong></li>
+</ol>
+<ul>
+<li>Responsável pela inicialização e coordenação geral</li>
+<li>Interpretação de parâmetros POSIX</li>
+<li>Gerenciamento do fluxo principal</li>
+</ul>
+<ol>
+<li><strong>Bet Generator</strong></li>
+</ol>
+<ul>
+<li>Gera apostas conforme o método selecionado</li>
+<li>Implementa os três modos de geração (aleatório, lexicográfico, completo)</li>
+</ul>
+<ol>
+<li><strong>Strategy Engine</strong></li>
+</ol>
+<ul>
+<li>Sistema modular de estratégias de análise</li>
+<li>Calcula scores para cada aposta</li>
+<li>Interface base para implementação de estratégias</li>
+</ul>
+<ol>
+<li><strong>Database Manager</strong></li>
+</ol>
+<ul>
+<li>Gerencia conexões com o banco SQLite</li>
+<li>Fornece acesso às tabelas estatísticas</li>
+<li>Implementa pooling de conexões</li>
+</ul>
+<ol>
+<li><strong>Result Analyzer</strong></li>
+</ol>
+<ul>
+<li>Compara sugestões com resultados reais</li>
+<li>Persiste dados na tabela FAT_APOSTAS</li>
+</ul>
+<h3 id="42diagramadeclassesprincipais">4.2 Diagrama de Classes (Principais)</h3>
+<pre><code>+-------------------+       +-------------------+       +-------------------+
+|    MainApp        |       |   BetGenerator    |       |  StrategyEngine   |
++-------------------+       +-------------------+       +-------------------+
+| - config          |------&gt;| +generateBets()   |&lt;-----&gt;| +evaluate(Bet)    |
+| - dbManager       |       |                   |       |                   |
++-------------------+       +-------------------+       +-------------------+
+          ^                                                     ^
+          |                                                     |
+          v                                                     |
++-------------------+                                 +-------------------+
+|  DatabaseManager  |                                 |  BaseStrategy     |
++-------------------+                                 +-------------------+
+| +getConnection()  |                                 | +calculateScore() |
+| +releaseConn()    |                                 +-------------------+
++-------------------+                                           ^
+                                                               |
+                                               +---------------+---------------+
+                                               |                               |
+                                   +-------------------+           +-------------------+
+                                   | FrequencyStrategy |           | PositionStrategy  |
+                                   +-------------------+           +-------------------+
+                                   | +calculateScore() |           | +calculateScore() |
+                                   +-------------------+           +-------------------+
+</code></pre>
+<h2 id="5estratgiasdeanlise">5. Estratégias de Análise</h2>
+<h3 id="51estratgiasbsicas">5.1 Estratégias Básicas</h3>
+<ol>
+<li><strong>Frequência Simples</strong></li>
+</ol>
+<ul>
+<li>Baseada na tabela DEZ_OCORRENCIAS</li>
+<li>Atribui scores baseados na frequência histórica de cada dezena</li>
+</ul>
+<ol>
+<li><strong>Distribuição por Posição</strong></li>
+</ol>
+<ul>
+<li>Utiliza a tabela AGREG<em>DIS</em>DEZ_POSICAO</li>
+<li>Considera a probabilidade de cada dezena aparecer em cada posição</li>
+</ul>
+<h3 id="52estratgiasavanadasextensveis">5.2 Estratégias Avançadas (Extensíveis)</h3>
+<ol>
+<li><strong>Análise Gaussiana</strong></li>
+</ol>
+<ul>
+<li>Modela distribuições normais para frequências de dezenas</li>
+</ul>
+<ol>
+<li><strong>Transição de Estados</strong></li>
+</ol>
+<ul>
+<li>Usa a tabela EST<em>MUD</em>ESTADO para análise Markoviana</li>
+</ul>
+<ol>
+<li><strong>Probabilidades Condicionais</strong></li>
+</ol>
+<ul>
+<li>Calcula dependências entre dezenas baseadas no histórico</li>
+</ul>
+<h2 id="6bancodedados">6. Banco de Dados</h2>
+<h3 id="61estruturaprincipal">6.1 Estrutura Principal</h3>
+<ol>
+<li><strong>Tabelas Principais</strong></li>
+</ol>
+<ul>
+<li><code>DEZ_OCORRENCIAS</code>: Frequência granular de cada dezena</li>
+<li><code>AGREG_DIS_DEZ_POSICAO</code>: Ocorrências por dezena e posição</li>
+<li><code>EST_MUD_ESTADO</code>: Transições de estado entre sorteios</li>
+<li><code>FAT_APOSTAS</code>: Armazena sugestões geradas e resultados</li>
+</ul>
+<ol>
+<li><strong>Views Úteis</strong></li>
+</ol>
+<ul>
+<li>View de frequência acumulada</li>
+<li>View de distribuição posicional normalizada</li>
+<li>View de transições mais prováveis</li>
+</ul>
+<h2 id="7parmetrosposix">7. Parâmetros POSIX</h2>
+<p>| Parâmetro | Descrição | Valores Aceitos | Obrigatório |
+|-----------|-----------|-----------------|-------------|
+| -n        | Número de apostas a gerar | Inteiro &gt; 0 | Sim* |
+| -m        | Modo de geração | RANDOM, LEXICO, FULL | Sim |
+| -t        | Número de threads | Inteiro &gt; 0 | Não |
+| -d        | Caminho do banco SQLite | Caminho válido | Não |
+| -v        | Nível de verbosidade | 0-3 | Não |</p>
+<p>*Obrigatório exceto no modo FULL</p>
+<h2 id="8fluxodeprocessamento">8. Fluxo de Processamento</h2>
+<ol>
+<li>Inicialização</li>
+</ol>
+<ul>
+<li>Carrega configurações</li>
+<li>Estabelece pool de conexões</li>
+<li>Carrega estratégias ativas</li>
+</ul>
+<ol>
+<li>Geração de Apostas</li>
+</ol>
+<ul>
+<li>Cria conjunto de apostas conforme parâmetros</li>
+<li>Distribui processamento por threads</li>
+</ul>
+<ol>
+<li>Avaliação por Estratégias</li>
+</ol>
+<ul>
+<li>Cada estratégia calcula scores</li>
+<li>Scores são consolidados</li>
+</ul>
+<ol>
+<li>Ranqueamento Final</li>
+</ol>
+<ul>
+<li>Ordena apostas por score total</li>
+<li>Seleciona as melhores conforme solicitado</li>
+</ul>
+<ol>
+<li>Persistência e Análise</li>
+</ol>
+<ul>
+<li>Armazena sugestões</li>
+<li>Compara com últimos resultados (se disponível)</li>
+</ul>
+<ol>
+<li>Finalização</li>
+</ol>
+<ul>
+<li>Libera recursos</li>
+<li>Gera relatório resumido</li>
+</ul>
+<h2 id="9tratamentodeerros">9. Tratamento de Erros</h2>
+<ol>
+<li><strong>Falhas de Banco de Dados</strong></li>
+</ol>
+<ul>
+<li>Retry com backoff exponencial</li>
+<li>Failover após 3 tentativas</li>
+</ul>
+<ol>
+<li><strong>Falhas em Threads</strong></li>
+</ol>
+<ul>
+<li>Log detalhado</li>
+<li>Reinicialização controlada</li>
+</ul>
+<ol>
+<li><strong>Parâmetros Inválidos</strong></li>
+</ol>
+<ul>
+<li>Mensagens claras de erro</li>
+<li>Exibição de ajuda</li>
+</ul>
+<h2 id="10consideraesdeimplementao">10. Considerações de Implementação</h2>
+<ol>
+<li><strong>Bibliotecas Principais</strong></li>
+</ol>
+<ul>
+<li>Apache Commons DBCP (Pool de conexões)</li>
+<li>SQLite JDBC</li>
+<li>Joda-Time ou java.time para datas</li>
+</ul>
+<ol>
+<li><strong>Padrões de Projeto</strong></li>
+</ol>
+<ul>
+<li>Strategy Pattern para análises</li>
+<li>Factory Method para geração de apostas</li>
+<li>Observer para monitoramento</li>
+</ul>
+<ol>
+<li><strong>Configuração</strong></li>
+</ol>
+<ul>
+<li>Arquivo properties para parâmetros ajustáveis</li>
+<li>Valores padrão sensíveis</li>
+</ul>
+<h2 id="11exemplodeuso">11. Exemplo de Uso</h2>
+<pre><code class="bash language-bash"># Gerar 10 apostas aleatórias
+java -jar megasena-sugestor.jar -m RANDOM -n 10
+
+# Gerar 5 apostas lexicográficas com 8 threads
+java -jar megasena-sugestor.jar -m LEXICO -n 5 -t 8
+
+# Avaliar todas combinações possíveis (modo completo)
+java -jar megasena-sugestor.jar -m FULL
+</code></pre>
+<h2 id="12prximasverses">12. Próximas Versões</h2>
+<ol>
+<li><strong>Especificacao_V002</strong></li>
+</ol>
+<ul>
+<li>Detalhamento das estratégias avançadas</li>
+<li>Modelagem matemática adicional</li>
+</ul>
+<ol>
+<li><strong>Especificacao_V003</strong></li>
+</ol>
+<ul>
+<li>Diagramas de sequência detalhados</li>
+<li>Modelo de dados completo</li>
+</ul>
+<ol>
+<li><strong>Especificacao_V004</strong></li>
+</ol>
+<ul>
+<li>Planos de teste</li>
+<li>Critérios de aceitação</li>
+</ul>
+      </body>
+      </html>
+    
