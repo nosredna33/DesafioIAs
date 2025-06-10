@@ -27,10 +27,10 @@
 10. Os dados para análises estatísticas estão disponíveis para download em [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db).
 
 11. A abordagem inicial simplista sobre as estratégias não impede a criação de estratégias mais sofisticada em Java que incluem:
-     **Ranking gaussiano** das apostas baseado em múltiplos critérios.
-    **Análise de transição de estados** usando a tabela EST_MUD_ESTADO
-    **Probabilidades condicionais** por posição baseadas no histórico de ocorrências.
-    **Sistema de scoring mais robusto** com pesos estatísticos, e
-    **Outras que Julgar interessantes**
+     - **Ranking gaussiano** das apostas baseado em múltiplos critérios.
+     - **Análise de transição de estados** usando a tabela EST_MUD_ESTADO
+     - **Probabilidades condicionais** por posição baseadas no histórico de ocorrências.
+     - **Sistema de scoring mais robusto** com pesos estatísticos, e
+     - **Outras que Julgar interessantes**
 
 12. 
