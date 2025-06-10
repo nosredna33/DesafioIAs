@@ -17,11 +17,20 @@
 
 8. Como eu ainda não expus a API para consulta do Site [Mega Power Loterias](https://megapower-loterias.com.br/), vou expor uma amostra do banco de dados no site, em formato SQLITE 3, com as principais estatísticas em tabelas e views, que sinplifica seu trabalho ao invés de fazer parse em textos html do site. O banco de dados, em formato SQLITE 3, está em [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db).
 
-Este banco de dados contém todas as informações granulares e agregadas sobre todos os sorteios já realizados, desde o primeiro sorteio da Mega-Sena:
+9. Este banco de dados contém todas as informações granulares e agregadas sobre todos os sorteios já realizados, desde o primeiro sorteio da Mega-Sena:
 - **DEZ_OCORRENCIAS** : Contem informação granulares da ocorrência de cada dezena, desde o primeiro sorteio;
 
 - **AGREG_DIS_DEZ_POSICAO** : Mantém uma linha oara cada dezena exibindo a quantidade de ocorrências da dezena, por posição no sorteio;
 
 - Além destas citadas se puder documentar as demais eu agradeço!
 
-9. Os dados para análises estatísticas estão disponíveis para download em [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db).
+10. Os dados para análises estatísticas estão disponíveis para download em [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db).
+
+11. A abordagem inicial simplista sobre as estratégias não impede a criação de estratégias mais sofisticada em Java que incluem:
+     **Ranking gaussiano** das apostas baseado em múltiplos critérios.
+    **Análise de transição de estados** usando a tabela EST_MUD_ESTADO
+    **Probabilidades condicionais** por posição baseadas no histórico de ocorrências.
+    **Sistema de scoring mais robusto** com pesos estatísticos, e
+    **Outras que Julgar interessantes**
+
+12. 
