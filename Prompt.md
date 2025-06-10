@@ -1,3 +1,5 @@
+Escreva uma especificação completa, após analisar os arquivos da URL informada, sem gerar arquivos intermediários não solicitados, com o nome Especificacao.md, gerando para novas atualizações o nome Especificacao_V00n conforme esta declaração de escopo:
+
 1. Quero um programa, escrito linguagem em Java, que seja capaz de gerar sugestões de jogos, cujo o número de apostas geradas seja informado como parâmetros, na forma POSIX. 
 
 2. O programa deverá exibar as mensagens usando data, hora e valores, com NLS compatível com a do ambiente operacional, ou Português Brasil, caso seja impossível detectar automaticamente.
