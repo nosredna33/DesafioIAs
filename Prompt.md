@@ -33,4 +33,6 @@
      - **Sistema de scoring mais robusto** com pesos estatísticos, e
      - **Outras que Julgar interessantes**
 
-12. 
+12. Com base no resultado  do último sorteio analisar o desempenho das nossas sugestões de apostas, mantidas no banco de dados, na tabela **FAT_APOSTAS**, persistidas juntamente com a data da aposta, a data do sorteio, o concurso, a soma do ranking de estratégias, e a comparação do ranking do resultado real do último concurso.
+
+13. 
