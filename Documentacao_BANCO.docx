@@ -1,0 +1,159 @@
+
+      <html xmlns:o='urn:schemas-microsoft-com:office:office'
+            xmlns:w='urn:schemas-microsoft-com:office:word'
+            xmlns='http://www.w3.org/TR/REC-html40'>
+      <head>
+          <meta charset="utf-8">
+          <title>Exported Document</title>
+          <style>
+              body { font-family: Arial, sans-serif; }
+          </style>
+      </head>
+      <body>
+          <p>Claro! Com base no script DDL que você forneceu (<code>MegaPower-SQLite3-CreateDB.sql</code>), preparei uma <strong>documentação acadêmica</strong> organizada e clara do banco de dados. Abaixo está um modelo que você pode incorporar ao seu projeto acadêmico.</p>
+<hr />
+<h1 id="documentaodobancodedadosmegapower">📘 Documentação do Banco de Dados: MegaPower</h1>
+<h2 id="objetivogeral">🎯 Objetivo Geral</h2>
+<p>O banco de dados <strong>MegaPower</strong> foi projetado para armazenar, processar e analisar resultados da loteria <strong>Mega-Sena</strong>, fornecendo bases estatísticas e projeções sobre os concursos passados e prováveis combinações futuras. O foco está na inteligência analítica baseada em comportamento das dezenas sorteadas, com forte apoio em estatísticas, variações e distribuições de Poisson.</p>
+<hr />
+<h2 id="estruturageraldobancodedados">🧱 Estrutura Geral do Banco de Dados</h2>
+<p>O banco é composto por:</p>
+<ul>
+<li><strong>20+ Tabelas</strong>: entre fatos, dimensões, agregações e apoio ao processo ETL.</li>
+<li><strong>30+ Views</strong>: para análise estatística e projeções.</li>
+<li><strong>Extensões Estatísticas e Matemáticas</strong>: integradas ao SQLite via <code>.dll</code> (por exemplo, <code>stats.dll</code> e <code>math.dll</code>).</li>
+<li><strong>Scripts em Java</strong>: responsáveis por alimentar dados em algumas tabelas de fato.</li>
+</ul>
+<hr />
+<h2 id="principaistabelaseobjetivos">📂 Principais Tabelas e Objetivos</h2>
+<h3 id="dual">🟦 <code>DUAL</code></h3>
+<blockquote>
+  <p>Tabela utilitária com uma única linha e coluna. Serve como auxiliar para consultas que exigem ao menos uma linha como resultado.</p>
+</blockquote>
+<hr />
+<h3 id="etl0_cargas">🟨 <code>ETL0_CARGAS</code></h3>
+<blockquote>
+  <p>Armazena metadados das cargas feitas via ETL (Extração dos arquivos da Caixa Econômica Federal).</p>
+</blockquote>
+<p><strong>Campos Notáveis</strong>:</p>
+<ul>
+<li><code>CO_CARGA</code>: identificador único da carga.</li>
+<li><code>DT_ARQ_CAIXA</code>, <code>QT_CONCURSOS</code>: garantem rastreabilidade e verificação da integridade dos dados carregados.</li>
+</ul>
+<hr />
+<h3 id="concursos">🟨 <code>CONCURSOS</code></h3>
+<blockquote>
+  <p>Tabela bruta dos concursos, com dezenas sorteadas, data, somas, colunas auxiliares para mudanças de estado (<code>ES1</code> a <code>ES6</code>) e semana.</p>
+</blockquote>
+<hr />
+<h3 id="dez_ocorrencias">🟥 <code>DEZ_OCORRENCIAS</code></h3>
+<blockquote>
+  <p>Tabela que <strong>normaliza</strong> os concursos em registros por dezena, posição e data, permitindo análises detalhadas por posição e frequência.</p>
+</blockquote>
+<hr />
+<h3 id="fat_depara">🟥 <code>FAT_DEPARA</code></h3>
+<blockquote>
+  <p>Tabela de <strong>fato principal</strong> do modelo de mudança de estado: armazena a transição de uma dezena (DE) para outra (PARA) em uma determinada posição (POS), com várias estatísticas desnormalizadas de apoio.</p>
+</blockquote>
+<p><strong>Estatísticas Incluídas</strong>:</p>
+<ul>
+<li>Quantidade de ocorrências (QTD).</li>
+<li>Média, mínimo, máximo, desvio padrão.</li>
+<li>Probabilidade percentual de mudança.</li>
+<li>Probabilidade Poisson para nova ocorrência da dezena “PARA”.</li>
+</ul>
+<hr />
+<h3 id="fat_sorteios">🟨 <code>FAT_SORTEIOS</code></h3>
+<blockquote>
+  <p>Armazena os dados consolidados de cada sorteio. Tabela pesada e altamente desnormalizada para <strong>Data Warehouse</strong>.</p>
+</blockquote>
+<p><strong>Inclui</strong>:</p>
+<ul>
+<li>Todas as dezenas e suas posições.</li>
+<li>Informações agregadas (mínimo, máximo, soma, média das dezenas).</li>
+<li>Padrões por quadrantes, pares/ímpares, regiões da cartela.</li>
+<li>Resultado do concurso (acumulado, ganhadores, rateios).</li>
+</ul>
+<hr />
+<h3 id="fat_dezenas_ocorrencias">🟨 <code>FAT_DEZENAS_OCORRENCIAS</code></h3>
+<blockquote>
+  <p>Acumula a <strong>ocorrência histórica de cada dezena</strong> até um dado concurso.</p>
+</blockquote>
+<p><strong>Campos</strong>:</p>
+<ul>
+<li><code>VEZES</code>, <code>RANKING_POSICAO</code>, <code>RANKING</code>: quantifica e classifica a frequência.</li>
+<li>Datas da primeira e última aparição da dezena.</li>
+</ul>
+<hr />
+<h3 id="est_atrasos">🟧 <code>EST_ATRASOS</code></h3>
+<blockquote>
+  <p>Estatísticas de <strong>atraso entre ocorrências</strong> da mesma dezena por posição. Crucial para alimentar análises com Poisson e visualização de padrões.</p>
+</blockquote>
+<hr />
+<h3 id="est_mud_estado">🟧 <code>EST_MUD_ESTADO</code></h3>
+<blockquote>
+  <p>Captura as <strong>mudanças de padrão</strong> DE → PARA em cada posição ao longo dos concursos.</p>
+</blockquote>
+<hr />
+<h3 id="agreg_sigmas_dezena">🟦 <code>AGREG_SIGMAS_DEZENA</code></h3>
+<blockquote>
+  <p>Tabela de agregação baseada em <strong>níveis sigma</strong> para cada dezena por posição. Utilizada para avaliar variações estatísticas nos padrões.</p>
+</blockquote>
+<hr />
+<h3 id="dim_dezena">🟩 <code>DIM_DEZENA</code></h3>
+<blockquote>
+  <p>Tabela de <strong>dimensão</strong> contendo metadados das dezenas:</p>
+</blockquote>
+<ul>
+<li>Código (1-60), nome por extenso, se é número primo, etc.</li>
+</ul>
+<hr />
+<h2 id="principaisviewsdeanlise">🔍 Principais Views de Análise</h2>
+<h3 id="vw_agreg_pp_n1an5"><code>VW_AGREG_PP_N1</code> a <code>N5</code></h3>
+<blockquote>
+  <p>Cadeia de views que agrupam estatísticas de transição entre dezenas em concursos consecutivos. São o <strong>núcleo estatístico</strong> do sistema de previsão.</p>
+</blockquote>
+<hr />
+<h3 id="vw_analise_ultimo"><code>VW_ANALISE_ULTIMO</code></h3>
+<blockquote>
+  <p>Apresenta as melhores combinações DE → PARA com base no <strong>último concurso</strong> e rankeia com base em múltiplos critérios estatísticos.</p>
+</blockquote>
+<hr />
+<h3 id="vw_agreg_atrasos_poisson_atrasar"><code>VW_AGREG_ATRASOS_POISSON_ATRASAR</code></h3>
+<blockquote>
+  <p>Analisa a <strong>chance de uma dezena continuar atrasada</strong>, usando distribuições de Poisson, baseada em histórico e distância da última aparição.</p>
+</blockquote>
+<hr />
+<h3 id="vw_est_dezenas"><code>VW_EST_DEZENAS</code></h3>
+<blockquote>
+  <p>Fornece estatísticas por dezena, incluindo:</p>
+</blockquote>
+<ul>
+<li>Total de concursos que participou.</li>
+<li>Quantidade de atrasos.</li>
+<li>Total de dias de atraso acumulado.</li>
+</ul>
+<hr />
+<h2 id="intelignciaestatsticaincorporada">🧠 Inteligência Estatística Incorporada</h2>
+<p>O sistema incorpora conceitos como:</p>
+<ul>
+<li><strong>Distribuição de Poisson</strong> para prever o retorno de dezenas.</li>
+<li><strong>Sigma e Desvio Padrão</strong> para medir estabilidade de padrões.</li>
+<li><strong>Rankings Percentuais e Absolutos</strong> para determinar as "melhores" dezenas.</li>
+<li><strong>Agregações Multinível</strong> (POS → DEZENA → TRANSIÇÃO) para alimentar tabelas de fato.</li>
+</ul>
+<hr />
+<h2 id="processosautomatizados">🚀 Processos Automatizados</h2>
+<ul>
+<li><strong>Carga</strong>: via shell script e Java.</li>
+<li><strong>Estatísticas</strong>: calculadas com extensões para SQLite3 (<code>stats.dll</code>, <code>math.dll</code>).</li>
+<li><strong>Importação</strong>: via arquivos <code>.txt</code> padronizados da Caixa.</li>
+</ul>
+<hr />
+<h2 id="concluso">📌 Conclusão</h2>
+<p>O banco de dados MegaPower não apenas armazena concursos da Mega-Sena, mas estrutura e transforma esses dados com rigor estatístico, habilitando análises avançadas, previsões e insights baseados em ciência de dados e teoria das probabilidades.</p>
+<hr />
+<p>Se quiser, posso gerar esse conteúdo em PDF ou DOCX formatado para você colar diretamente no projeto acadêmico. Deseja isso?</p>
+      </body>
+      </html>
+    
