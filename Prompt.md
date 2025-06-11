@@ -58,7 +58,13 @@ o Documento da especificação, deve ser gerado, sem gerar arquivos intermediár
 
 13. Com base no resultado  do último sorteio analisar o desempenho das nossas sugestões de apostas, mantidas no banco de dados, na tabela **FAT_APOSTAS**, persistidas juntamente com a data da aposta, a data do sorteio, o concurso, a soma do ranking de estratégias, e a comparação do ranking do resultado real do último concurso.
 
-14. Como requisitos essenciais da aplicação fazem necessários:
+14. Parâmetros POSIX
+    Siga este exemplo de documentação dos parâmetros da linha de comandos para o formato POSIX:
+    
+| Parâmetro | Descrição | Valores Aceitos | Obrigatório | |-----------|-----------|-----------------|-------------| | -n | Número de apostas a gerar | Inteiro > 0 | Sim* | | -m | Modo de geração | RANDOM, LEXICO, FULL | Sim | | -t | Número de threads | Inteiro > 0 | Não | | -d | Caminho do banco SQLite | Caminho válido | Não | | -v | Nível de verbosidade | 0-3 | Não |
+*Obrigatório exceto no modo FULL
+   
+15. Como requisitos essenciais da aplicação fazem necessários:
     - Pool de Conexões: Uso do Apache Commons DBCP para gerenciar conexões, evitando _"host busy"_ com limite de conexões ativas; Timeout configurável (5 segundos);
     - Paralelização: Cálculos estatísticos distribuídos em múltiplos núcleos;
     - Streams paralelos para processamento eficiente;
