@@ -18,15 +18,18 @@ informada, sem gerar arquivos intermediários não solicitados, com o nome Espec
 5. As estratégias são implementações de uma classe, baseada numa classe abstrata ou de uma interface.
 
 6. As apostas geradas e submetidoas a cadeia de estrategias poderão ser de uma das três formas:
+   
    6.1. Informados em parâmetro POSIX, na chamada do programa com o número de apostas geradas aleatoriamente.
+   
    6.2. Informados em parâmetro POSIX, na chamada do programa, com o número de apostas obtidas com base na escolha aleatória do índice lexicografico entre as 50.063.860 combinações possíveis, onde o indice 1 representa a aposta \[01 - 02 - 03 - 04 - 05 - 06\] e de indice 50.063.860 representa a aposta \[55 - 56 - 57 - 58 - 59 - 60\].
+   
    6.3. Informados em parâmetro POSIX, na chamada do programa, que indica que toas combinações serão avaliadas (submetidas à cadeia de estratégias em busca de ranking) da combinação  \[01 - 02 - 03 - 04 - 05 - 06\] à \[55 - 56 - 57 - 58 - 59 - 60\].
 
-7. Para tanto este programa deverá ser Multithread e usar pool dr conexões com o SQLITE 3, para evitar gargalos entre as threads.
+8. Para tanto este programa deverá ser Multithread e usar pool dr conexões com o SQLITE 3, para evitar gargalos entre as threads.
 
-8. Como eu ainda não expus a API para consulta do Site [Mega Power Loterias](https://megapower-loterias.com.br/), vou expor uma amostra do banco de dados no site, em formato SQLITE 3, com as principais estatísticas em tabelas e views, que sinplifica seu trabalho ao invés de fazer parse em textos html do site. O banco de dados, em formato SQLITE 3, está em [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db).
+9. Como eu ainda não expus a API para consulta do Site [Mega Power Loterias](https://megapower-loterias.com.br/), vou expor uma amostra do banco de dados no site, em formato SQLITE 3, com as principais estatísticas em tabelas e views, que sinplifica seu trabalho ao invés de fazer parse em textos html do site. O banco de dados, em formato SQLITE 3, está em [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db).
 
-9. Este banco de dados contém todas as informações granulares e agregadas sobre todos os sorteios já realizados, desde o primeiro sorteio da Mega-Sena:
+10. Este banco de dados contém todas as informações granulares e agregadas sobre todos os sorteios já realizados, desde o primeiro sorteio da Mega-Sena:
 - **DEZ_OCORRENCIAS** : Contem informação granulares da ocorrência de cada dezena, desde o primeiro sorteio;
 
 - **AGREG_DIS_DEZ_POSICAO** : Mantém uma linha oara cada dezena exibindo a quantidade de ocorrências da dezena, por posição no sorteio;
