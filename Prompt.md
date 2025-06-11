@@ -1,4 +1,11 @@
-Escreva uma especificação completa, após analisar os arquivos da URL informada, sem gerar arquivos intermediários não solicitados, com o nome Especificacao.md, gerando para novas atualizações o nome Especificacao_V00n conforme esta declaração de escopo:
+# O Prompt 
+Trata-se de um exempo padrão de solicitação de tarefas às IAs, para testar o comportamento e as entregas de cada IA.
+
+# o Pedido
+Escreva uma especificação completa, não os códigos fontes, após analisar os arquivos: 
+- O banco de dados SQLite 3, mamtido na URL [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db) e,
+- O documento de [Especificação do banco de dados]()
+informada, sem gerar arquivos intermediários não solicitados, com o nome Especificacao.md, gerando para novas atualizações o nome Especificacao_V00n conforme esta declaração de escopo:
 
 1. Quero um programa, escrito linguagem em Java, que seja capaz de gerar sugestões de jogos, cujo o número de apostas geradas seja informado como parâmetros, na forma POSIX. 
 
