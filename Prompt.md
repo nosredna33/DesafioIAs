@@ -1,8 +1,11 @@
 # O Prompt 
 Trata-se de um exempo padrão de solicitação de tarefas às IAs, para testar o comportamento e as entregas de cada IA.
 
-# o Pedido
-Escreva uma especificação completa de um sistema, não os códigos fontes, após analisar os arquivos: 
+# O Pedido
+## Objetivo
+Desenvolver um programa em Java capaz de gerar sugestões de jogos para a Mega-Sena com base em estratégias estatísticas, com suporte a geração massiva de apostas, paralelização e persistência dos dados para análise futura.
+
+Escreva a especificação completa de um sistema, não os códigos fontes e oitros artefatos do projeto, somente após analisar os arquivos: 
 - O banco de dados SQLite 3, mamtido na URL [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db) e,
 - O documento de [Especificação do banco de dados](https://github.com/nosredna33/DesafioIAs/blob/8db640eab318ca0edde2acb0a679ce3bc9a7686c/Documentacao_do_Bancode_Dados_MegaPower.md).
   
