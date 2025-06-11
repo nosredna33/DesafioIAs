@@ -4,7 +4,7 @@ Trata-se de um exempo padrão de solicitação de tarefas às IAs, para testar o
 # o Pedido
 Escreva uma especificação completa, não os códigos fontes, após analisar os arquivos: 
 - O banco de dados SQLite 3, mamtido na URL [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db) e,
-- O documento de [Especificação do banco de dados]()
+- O documento de [Especificação do banco de dados](https://github.com/nosredna33/DesafioIAs/blob/8db640eab318ca0edde2acb0a679ce3bc9a7686c/Documentacao_do_Bancode_Dados_MegaPower.md)
 informada, sem gerar arquivos intermediários não solicitados, com o nome Especificacao.md, gerando para novas atualizações o nome Especificacao_V00n conforme esta declaração de escopo:
 
 1. Quero um programa, escrito linguagem em Java, que seja capaz de gerar sugestões de jogos, cujo o número de apostas geradas seja informado como parâmetros, na forma POSIX. 
