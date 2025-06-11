@@ -61,7 +61,13 @@ o Documento da especificação, deve ser gerado, sem gerar arquivos intermediár
 14. Parâmetros POSIX
     Siga este exemplo de documentação dos parâmetros da linha de comandos para o formato POSIX:
     
-| Parâmetro | Descrição | Valores Aceitos | Obrigatório | |-----------|-----------|-----------------|-------------| | -n | Número de apostas a gerar | Inteiro > 0 | Sim* | | -m | Modo de geração | RANDOM, LEXICO, FULL | Sim | | -t | Número de threads | Inteiro > 0 | Não | | -d | Caminho do banco SQLite | Caminho válido | Não | | -v | Nível de verbosidade | 0-3 | Não |
+| Parâmetro | Descrição | Valores Aceitos | Obrigatório | 
+|-----------|-----------|-----------------|-------------| 
+| -n | Número de apostas a gerar | Inteiro > 0 | Sim* | 
+| -m | Modo de geração | RANDOM, LEXICO, FULL | Sim | 
+| -t | Número de threads | Inteiro > 0 | Não | 
+| -d | Caminho do banco SQLite | Caminho válido | Não | 
+| -v | Nível de verbosidade | 0-3 | Não |
 *Obrigatório exceto no modo FULL
    
 15. Como requisitos essenciais da aplicação fazem necessários:
