@@ -7,7 +7,7 @@ Escreva a especificação completa de um sistema, não os códigos fontes e outr
 
 Executar a tarefa somente após analisar os arquivos: 
 - O banco de dados SQLite 3, mamtido na URL [https://megapower-loterias.com.br/dados/MegaPower.db](https://megapower-loterias.com.br/dados/MegaPower.db) e,
-- O documento de [Especificação do banco de dados](https://github.com/nosredna33/DesafioIAs/blob/8db640eab318ca0edde2acb0a679ce3bc9a7686c/Documentacao_do_Bancode_Dados_MegaPower.md).
+- O documento de [Especificação do banco de dados](https://github.com/nosredna33/DesafioIAs/blob/main/Documentacao_Banco.md#:~:text=Desabafo.md-,Documentacao_Banco.md,-MegaPower.zip).
   
 o Documento da especificação, deve ser gerado, sem gerar arquivos intermediários não solicitados, com o nome Especificacao.md, gerando para novas atualizações o nome Especificacao_V00n conforme esta declaração de escopo:
 
