@@ -1,7 +1,3 @@
-Claro! Com base no script DDL que você forneceu (`MegaPower-SQLite3-CreateDB.sql`), preparei uma **documentação acadêmica** organizada e clara do banco de dados. Abaixo está um modelo que você pode incorporar ao seu projeto acadêmico.
-
----
-
 # 📘 Documentação do Banco de Dados: MegaPower
 
 ## 🎯 Objetivo Geral
