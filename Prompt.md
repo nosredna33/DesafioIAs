@@ -6,9 +6,9 @@
 | 1.5    | 01/06/2025 | Atualizado em respostas aos questionamentos das IAs |
 | 1.52   | 20/06/2025 | Mais ajustes para atender aos questionamentos das IAs |
 | 2.00   | 21/06/2025 | Ajustes finais. |
+| 2.50   | 22/06/2025 | Maia ajustes sugeridos pelas IAs. |
 
 ### TODO:
-- Especificar `ESTRATEGIA`, `CADEIA DE ESTRATÉGIAS`, `APOSTA GERADA`,  `APOSTAS CANDIDATAS`, 
 
 
 # O Prompt 
@@ -27,19 +27,20 @@ Escrever uma aplicação com base em dados públicos, mantidos no Site [Mega Pow
 
 ### Definições:
 
-##### `ESTRATEGIA`
-É uma classe abstrata, cujas as implementações servem de filtro e para e calculo do ranking das `APOSTAS CANDIDATAS` submetidas para avaliação dela. A classe abstrata tem como membros:
+##### `ESTRATÉGIA`
+O conceito de `ESTRATEGIA` nesse sistema é um conjunto de código, que com base em parâmetros definidos pelos usuários, vão ranqueando as `APOSTAS CANDIDATAS`, conforme os critérios implementados em cada especialização da classe abstrata `ESTRATÉGIA`. Uma estratégia pode ser um filtro, jogando ranking lá para baixo se determinada condição ocorrer, praticamente eliminando a aposta na escolha entre aquelas do topo do Ranking entre as `APOSTAS CANDIDATAS`. Quando uma `APOSTAS CANDIDATAS` é submetidas para avaliação por uma estratégia, ela pode fazer consultas ao banco de dados, fazer cálculos estatísticos  exotéricos, consultas às APIs na internet, usar o Google, IAs, rodar scripts e até sortear números aleatórios usando o Randon forte do SSL e até usar bruxaria digital para chegar a um valor de ponto flutuante, que vais de mais a menos infinito (infinito é o limite de um Double).  A classe de implementação da `ESTRATÉGIA` então, no seu método `process ( ApostaCandidata aposta)`, se baseando nos parâmetros da inicialização da classe com os valore mínimos e máximos aceitáveis para os cálculos com base  vai acumular o  ranking à `APOSTAS CANDIDATAS`, que pode ser positiva ou negativa conforme as regras implementadas da `ESTRATÉGIA`.  Uma `ESTRATÉGIA` também pode ser chamada de `FILTRO`, quando o seu intuito for o de tentar descartar uma `APOSTAS CANDIDATAS`, conforme seus critério, atribuindo a ela um ranking muito baixo .
 
-	public abstract class {
-		String name;
-		String description;
-		String uniqueTagId;
-		float rank_true  = 100.0;
-		float rank_false = -10.00;
-		int dez_filter_min = 3;
-		int dez_filter_max = 3;
-		  
-	}
+##### `CADEIA DE ESTRATÉGIAS`
+A `CADEIA DE ESTRATÉGIAS` é uma estrutura de dados thread-safe, isto é, deve ser acessada com o mínimo de contenção a outras threads, pelo sistema, para executar as respectivas tarefas definidas em `process ( ApostaCandidata aposta)`. Pensem sempre numa solução para aplicação com o mínimo de regiões críticas, para evitar gargalos da aplicação, ou disputas dead-lock.
+
+###### `APOSTA GERADA`
+A `APOSTA GERADA` é uma ,  `APOSTAS CANDIDATAS`, criada por qualquer mecanismo, geração aleatório, dicas de amigos, sonhos, frases bíblicas, cálculos com base no seu biorritmo, com base em fotos da NASA, observação de estatísticas de anteriores jogos e até física quântica. Que estão mantidas em um arquivo contendo uma ou mais `APOSTAS CANDIDATAS`  conforme, como um elemento da `LISTA DE APOSTAS CANDIDATAS`, descritas no `item 8.3` deste documento.
+
+##### `LISTA DE APOSTAS CANDIDATAS`
+É uma coleção de `APOSTAS CANDIDATAS`, conforme descritas no `item 8.3` deste documento.
+
+##### `APOSTAS CANDIDATAS`
+São textos contendo 6 dezenas de 01 à 60, separados por branco ou rifem, que representam uma intenção de se transformar em uma aposta para jogo da `Mega-Sena`.O texto deve estar em conjunto de caracteres no formato UTF-8, contendo 6 dezenas, no formato: `03 05 07 11 13 17` ou `23-31-47-53-57-60`, devendo cada dezena sempre duas casas, com zero a esquerda para números menores que 10, tendo as dezenas separadas por branco ou hífen e fim e sem o fim de linha \n, mantidos no arquivo de sua persistência. Vide `item 8` deste documento.
 
 
 ### Aspectos relativos à implementação do sistema
@@ -48,6 +49,7 @@ Escrever uma aplicação com base em dados públicos, mantidos no Site [Mega Pow
 		- DDL: [Script de Criação do banco](https://github.com/nosredna33/DesafioIAs/blob/main/exportacao.sql)
 		- DML: [Dados atualizados até o Concurso `2877` de `17/06/2025`()
 		- O documento detalhamento da [Especificação do banco de dados](https://github.com/nosredna33/DesafioIAs/blob/main/Documentacao_Banco.md) encontra-se aqui.
+		- Esqueleto do projeto Java que define os objetos raízes do sistema, que devem ser respeitados fielmente na implementação do sistema, podendo sofrer modificações necessárias somente nas implementações das classes derivadas, desde que não afetam a arquitetura do aqui proposta. O pacote `megapowerx-estrategias.zip` encontra-se nesse [Link](https://github.com/nosredna33/DesafioIAs/blob/main/megapowerx-estrategias.zip), para ser usado e avaliado na construção do sistema ao final da `Fase 2`.
   
 2. O sistema (1 ou mais programas), escritos **TODOS**  em linguagem em Java, para gerar sugestões de jogos, cujo comportamento, em tempo de execução, seja controlado tanto por  parâmetros, na linha de comandos, no formato POSIX, quanto por arquivo de configuração no formato `.properties` do Java. 
 
@@ -66,7 +68,7 @@ Escrever uma aplicação com base em dados públicos, mantidos no Site [Mega Pow
 		
 		8.2 **Todas as Combinações possíveis** - Informado em parâmetro próprio na chamada do programa, indicando que todas as combinações serão avaliadas (submetidas à `CADEIA DE ESTRATÉGIAS`, isto é da `[01 - 02 - 03 - 04 - 05 - 06]` à `[55 - 56 - 57 - 58 - 59 - 60]`).
 		
-		8.3. **Lista de `APOSTAS CANDIDATAS`** - Informado em parâmetro próprio na chamada do programa, que indica que as  `APOSTAS CANDIDATAS` deverão ser lidas de um arquivo TXT, em formato UTF-8, com numa aposta de 6 dezenas, por linha, no formato: `03 05 07 11 13 17` ou `23-31-47-53-57-60`, devendo cada sugestão de aposta ter as suas dezenas separadas por branco ou hífen e fim de linha indicado apenas com o caráter \n.
+		8.3. **`LISTA DE APOSTAS CANDIDATAS`** - Informado em parâmetro próprio na chamada do programa, que indica que as  `APOSTAS CANDIDATAS` deverão ser lidas de um arquivo TXT, em formato UTF-8, com numa aposta de 6 dezenas, por linha, no formato: `03 05 07 11 13 17` ou `23-31-47-53-57-60`, devendo cada sugestão de aposta ter as suas dezenas separadas por branco ou hífen e fim de linha indicado apenas com o caráter \n.
 
 9. Este programa deverá ser Multithread e usar pool de conexões com o SQLITE 3, para evitar gargalos entre as threads durante as persistências transitórias das `APOSTAS CANDIDATAS` .
  
