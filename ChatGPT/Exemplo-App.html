@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Mega Sorteador</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 2rem;
+      background: #f2f2f2;
+    }
+
+    .container {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 700px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2a7d2e;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input, select {
+      padding: 0.4rem;
+      margin: 0.2rem 0 1rem 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      margin: 0.5rem;
+      font-weight: bold;
+      background-color: #2a7d2e;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #256b29;
+    }
+
+    #mensagem {
+      color: red;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    pre {
+      background: #eee;
+      padding: 1rem;
+      white-space: pre-wrap;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Mega Sorteador</h1>
+
+  <label for="qtde">Quantidade de jogos:</label>
+  <input type="number" id="qtde" value="5" min="1" max="100" />
+
+  <label for="dezenas">Dezenas por jogo:</label>
+  <select id="dezenas">
+    <option>6</option><option>7</option><option>8</option>
+    <option>9</option><option>10</option><option>11</option>
+    <option>12</option><option>13</option><option>14</option><option>15</option>
+  </select>
+
+  <label for="fixas">Dezenas fixas (ex: 01,09,33):</label>
+  <input type="text" id="fixas" />
+
+  <label for="excluidas">Dezenas excluídas (ex: 02,10,50):</label>
+  <input type="text" id="excluidas" />
+
+  <div style="text-align:center">
+    <button onclick="gerarJogos()">Gerar Jogos</button>
+    <button onclick="limparJogos()">Limpar Jogos Gerados</button>
+  </div>
+
+  <div id="mensagem"></div>
+  <pre id="jogos"></pre>
+</div>
+
+<script>
+function parseNumeros(input) {
+  return input
+    .split(',')
+    .map(s => parseInt(s.trim(), 10))
+    .filter(n => !isNaN(n) && n >= 1 && n <= 60);
+}
+
+function gerarJogo(qtdDezenas, fixas, excluidas) {
+  const jogo = new Set(fixas);
+  const candidatos = [];
+  for (let i = 1; i <= 60; i++) {
+    if (!jogo.has(i) && !excluidas.includes(i)) candidatos.push(i);
+  }
+
+  if (jogo.size > qtdDezenas) throw new Error('Mais fixas do que dezenas por jogo.');
+  if ((fixas.length + candidatos.length) < qtdDezenas) throw new Error('Poucas dezenas disponíveis após exclusões.');
+
+  while (jogo.size < qtdDezenas) {
+    const idx = Math.floor(Math.random() * candidatos.length);
+    jogo.add(candidatos.splice(idx, 1)[0]);
+  }
+
+  return Array.from(jogo).sort((a, b) => a - b);
+}
+
+function formatarJogo(jogo) {
+  return jogo.map(n => `[${String(n).padStart(2, '0')}]`).join(' ');
+}
+
+function gerarJogos() {
+  const qtd = parseInt(document.getElementById('qtde').value);
+  const dezenas = parseInt(document.getElementById('dezenas').value);
+  const fixas = parseNumeros(document.getElementById('fixas').value);
+  const excluidas = parseNumeros(document.getElementById('excluidas').value);
+  const mensagem = document.getElementById('mensagem');
+  const jogosDiv = document.getElementById('jogos');
+
+  mensagem.innerText = '';
+
+  if (fixas.some(f => excluidas.includes(f))) {
+    mensagem.innerText = 'Erro: há números nas fixas que também estão nas excluídas.';
+    return;
+  }
+
+  try {
+    const jogos = [];
+    for (let i = 0; i < qtd; i++) {
+      const jogo = gerarJogo(dezenas, fixas, excluidas);
+      jogos.push(jogo);
+    }
+    localStorage.setItem('jogosMega', JSON.stringify(jogos));
+    jogosDiv.innerText = jogos.map((jogo, i) => `Jogo ${i + 1}: ${formatarJogo(jogo)}`).join('\n');
+  } catch (e) {
+    mensagem.innerText = 'Erro: ' + e.message;
+  }
+}
+
+function limparJogos() {
+  localStorage.removeItem('jogosMega');
+  document.getElementById('jogos').innerText = '';
+  document.getElementById('mensagem').innerText = 'Jogos apagados com sucesso!';
+}
+
+window.onload = function () {
+  const salvos = localStorage.getItem('jogosMega');
+  if (salvos) {
+    const jogos = JSON.parse(salvos);
+    document.getElementById('jogos').innerText = jogos.map((jogo, i) => `Jogo ${i + 1}: ${formatarJogo(jogo)}`).join('\n');
+  }
+};
+</script>
+
+</body>
+</html>
