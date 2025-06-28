@@ -226,15 +226,23 @@ Ranking da Aposta: soma dos rankings dados por todas as estratégias.
 | -z        | Arquivo de regras.json^8^                    | Caminho do arquivo         | Não         |
 | ...       | parametros adicionais                        | ...                        | ...         |
 
-^1^ - Se o -e não for informado o valor dele será igual a 10 x o valor -n. -e 13, serão gerados ou lidos apenas 13 linhas do arquivo de apostas ou gerados aleatoriamente apenas 13 apostas candidatas. Se a notação for -e k:r, serão lidas as linhas da posição k à posição r, se -m FILE. E para o modo FULL (-m FULL), serão escolhidos as combinações da posição lexicográfica de k à r. Em todas as demais somente k será considerado.
-^2^ - Se o `apostas.txt` não existir, ou for inpossível ler, gera-se as `Apostas Candidatas` em modo RANDOM.
-^3^ - Sempre obrigatório independentemente do modo.
-^4^ - Se o `resultados.txt` já existir adiciona-se linhas ao final do arquivo. Se o parametro não for informado o resultado será jogado na saída padrão STDOUT.
-^5^ - Se o `megapowerx.log` já existir adiciona-se linhas ao final do arquivo. Se o parametro não for informado o resultado será jogado na saída padrão de erros STDERR.
-^6^ - Se as `Apostas Candidatas` tiverem qualquer uma destas dezenas da lista, elas serão excluídas. Isto é, será adcionado ao ranking delas -100,00, para cada dezena excluída encontrada.
-^7^ - Se -y estiver prezente, as dezenas geradas, serão sempre incluídas quando a opção de entrada -m for RANDOM. Isto é, as `Apostas Candidatas` terão adcionadas ao ranking delas 100,00 para cada dezena da lista encontrada na aposta.
-^8^ - Se presente não carrega todas as regras contidas no .JAR do executável ou do .JAR de extenções. Carregará somente as regrs listadas no arquivo em formato .json, instanciando os objetos conforme os parametros definidos no .json, sem caracteres TAB, em formato UTF-8, com \n indicando fim de linha.
-^9^ - Aruivo do tipo .properties do Java que, se informado, deverá ler de lá os parametros não informados na linha de comandos e ter ao final da execução do SIstema seus valores atualizados com os ultimos parametros informados e data e a hora, minuto e segundo da útima execução, representada na forma YYYY-MM-DDTHH:MI:SS.
+- ^1^ - Se o -e não for informado o valor dele será igual a 10 x o valor -n. -e 13, serão gerados ou lidos apenas 13 linhas do arquivo de apostas ou gerados aleatoriamente apenas 13 apostas candidatas. Se a notação for -e k:r, serão lidas as linhas da posição k à posição r, se -m FILE. E para o modo FULL (-m FULL), serão escolhidos as combinações da posição lexicográfica de k à r. Em todas as demais somente k será considerado.
+
+- ^2^ - Se o `apostas.txt` não existir, ou for inpossível ler, gera-se as `Apostas Candidatas` em modo RANDOM.
+  
+- ^3^ - Sempre obrigatório independentemente do modo.
+  
+- ^4^ - Se o `resultados.txt` já existir adiciona-se linhas ao final do arquivo. Se o parametro não for informado o resultado será jogado na saída padrão STDOUT.
+  
+- ^5^ - Se o `megapowerx.log` já existir adiciona-se linhas ao final do arquivo. Se o parametro não for informado o resultado será jogado na saída padrão de erros STDERR.
+ 
+- ^6^ - Se as `Apostas Candidatas` tiverem qualquer uma destas dezenas da lista, elas serão excluídas. Isto é, será adcionado ao ranking delas -100,00, para cada dezena excluída encontrada.
+  
+- ^7^ - Se -y estiver prezente, as dezenas geradas, serão sempre incluídas quando a opção de entrada -m for RANDOM. Isto é, as `Apostas Candidatas` terão adcionadas ao ranking delas 100,00 para cada dezena da lista encontrada na aposta.
+  
+- ^8^ - Se presente não carrega todas as regras contidas no .JAR do executável ou do .JAR de extenções. Carregará somente as regrs listadas no arquivo em formato .json, instanciando os objetos conforme os parametros definidos no .json, sem caracteres TAB, em formato UTF-8, com \n indicando fim de linha.
+  
+- ^9^ - Aruivo do tipo .properties do Java que, se informado, deverá ler de lá os parametros não informados na linha de comandos e ter ao final da execução do SIstema seus valores atualizados com os ultimos parametros informados e data e a hora, minuto e segundo da útima execução, representada na forma YYYY-MM-DDTHH:MI:SS.
 
 16. Preservar a estrutura do banco de dados, sugerindo alterações para serem aplicadas durante o processo de instalação da aplicação nova, em arquivo DDL separado, compatível com SQLite 3;
 
